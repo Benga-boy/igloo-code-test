@@ -16,6 +16,7 @@ const Tasks = () => {
   }
 
 
+
   // Function to handle submission of tasks
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -28,7 +29,29 @@ const Tasks = () => {
       }
       setTaskList([...taskList, tasks])
     }
-    
+    setTask('')
+  }
+
+
+  // Function to delete a task from the list
+  const handleDelete = (id) => {
+    // Simply return tasks where id not equals id of task to be deleted
+    setTaskList(taskList.filter(task => task.id !== id))
+  }
+
+  // Function to set your task to complete
+  const handleComplete = (id) => {
+    const taskToComplete = taskList.findIndex(task => task.id === id)
+
+    const newList = [...taskList]
+
+    newList[taskToComplete] = {
+      ...newList[taskToComplete],
+      isComplete: true
+    }
+
+    setTaskList(newList)
+
   }
 
 
@@ -52,7 +75,13 @@ const Tasks = () => {
       <div>
         <ul>
           {
-            taskList.length > 0 ? (taskList.map(task => <li key={task.id}> {task.text} </li>)) : null
+            taskList.length > 0 ? (taskList.map(task => 
+              <li key={task.id} className={task.isComplete ? 'cross' : null}> {task.text} 
+                <button onClick={() => handleDelete(task.id)}>Delete</button>
+                {
+                  task.isComplete === false ? <button onClick={() => handleComplete(task.id)} >Complete</button> : null
+                }
+              </li>)) : null
           }
         </ul>
       </div>
