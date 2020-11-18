@@ -1,6 +1,6 @@
-import { ADD_TASK, COMPLETE_TASK, DELETE_TASK } from './type'
+import { ADD_TASK, ADD_TEXT, COMPLETE_TASK, DELETE_TASK } from './type'
 
-export const initialState = { taskList: [] }
+export const initialState = { taskList: [], text: '' }
 
 
 const reducer = (state, action) => {
@@ -14,7 +14,7 @@ const reducer = (state, action) => {
           action.task
         ]
       }
-      
+
     case DELETE_TASK:
       return {
         ...state,
@@ -33,6 +33,12 @@ const reducer = (state, action) => {
         taskList: newList
       }
     }
+    
+    case ADD_TEXT:
+      return {
+        ...state,
+        text: action.text
+      }
 
     default:
       return state

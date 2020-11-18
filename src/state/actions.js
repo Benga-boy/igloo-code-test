@@ -1,5 +1,14 @@
 import { v4 as uuidv4 } from 'uuid'
-import { ADD_TASK, DELETE_TASK, COMPLETE_TASK } from './type'
+import { ADD_TASK, DELETE_TASK, COMPLETE_TASK, ADD_TEXT } from './type'
+
+
+// Function to add text
+export const addText = text => {
+  return {
+    type: ADD_TEXT,
+    text
+  }
+}
 
 
 // Function to add a task

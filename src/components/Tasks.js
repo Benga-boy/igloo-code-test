@@ -1,20 +1,19 @@
 import React, { Fragment, useReducer, useState } from 'react'
 import reducer, { initialState } from '../state/reducer'
-import { addTask, deleteTask, completeTask } from '../state/actions'
+import { addTask, deleteTask, completeTask, addText } from '../state/actions'
 import Form from './Form'
 import TaskContainer from './TaskContainer'
 
 
 
 const Tasks = () => {
-  const [text, setText] = useState('')
   const [error, setError] = useState(null)
   const [state, dispatch] = useReducer(reducer, initialState)
 
 
   // Function to handle input change
   const handleInputChange = e => {
-    setText(e.target.value)
+    dispatch(addText(e.target.value))
   }
 
 
@@ -22,13 +21,13 @@ const Tasks = () => {
   const handleSubmit = e => {
     e.preventDefault()
     // Ensure task is not an empty string
-    if (text !== '') {
+    if (state.text !== '') {
       dispatch(addTask(text))
       setError(null)
     } else {
       setError('Please type a task into the input field')
     }
-    setText('')
+    dispatch(addText(''))
   }
 
   // Function to delete a task from the list
@@ -43,7 +42,7 @@ const Tasks = () => {
 
 
   // Pull taskList from state
-  const taskList = state.taskList
+  const { taskList, text } = state
 
 
   return (
@@ -62,7 +61,7 @@ const Tasks = () => {
             <Form 
               handleSubmit = {handleSubmit}
               handleInputChange = {handleInputChange}
-              task = {text}
+              text = {text}
               error={error}
             />
 
