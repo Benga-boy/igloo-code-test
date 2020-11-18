@@ -8,6 +8,7 @@ import TaskContainer from './TaskContainer'
 
 const Tasks = () => {
   const [text, setText] = useState('')
+  const [error, setError] = useState(null)
   const [state, dispatch] = useReducer(reducer, initialState)
 
 
@@ -23,6 +24,9 @@ const Tasks = () => {
     // Ensure task is not an empty string
     if (text !== '') {
       dispatch(addTask(text))
+      setError(null)
+    } else {
+      setError('Please type a task into the input field')
     }
     setText('')
   }
@@ -59,6 +63,7 @@ const Tasks = () => {
               handleSubmit = {handleSubmit}
               handleInputChange = {handleInputChange}
               task = {text}
+              error={error}
             />
 
             <div className="task-container">

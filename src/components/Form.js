@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Form = ({ handleSubmit, task, handleInputChange }) => {
+const Form = ({ handleSubmit, task, handleInputChange, error }) => {
   return (
     <div className="form">
       <form onSubmit={handleSubmit}>
@@ -11,6 +11,11 @@ const Form = ({ handleSubmit, task, handleInputChange }) => {
           </div>
         </div>
         <div className="control">
+          { error ?
+            <small className="error">
+              {error}
+            </small> : null
+          }
           <button className="button is-link">Add Task</button>
         </div>
       </form>
