@@ -1,60 +1,45 @@
-import React, { Fragment, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import React, { Fragment, useReducer, useState } from 'react'
+import reducer, { initialState } from '../state/reducer'
+import { addTask, deleteTask, completeTask } from '../state/actions'
 import Form from './Form'
+import TaskContainer from './TaskContainer'
 
-// import { useInputValue } from '../hooks/hooks'
+
 
 const Tasks = () => {
-  const [task, setTask] = useState('')
-  const [taskList, setTaskList] = useState([])
-  // const text = useInputValue('')
-
+  const [text, setText] = useState('')
+  const [state, dispatch] = useReducer(reducer, initialState)
 
 
   // Function to handle input change
-  const handleInputChange = (e) => {
-    setTask(e.target.value)
+  const handleInputChange = e => {
+    setText(e.target.value)
   }
-
 
 
   // Function to handle submission of tasks
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault()
     // Ensure task is not an empty string
-    if (task !== '') {
-      const tasks = {
-        id: uuidv4(),
-        text: task,
-        isComplete: false
-      }
-      setTaskList([...taskList, tasks])
+    if (text !== '') {
+      dispatch(addTask(text))
     }
-    setTask('')
+    setText('')
   }
 
-
   // Function to delete a task from the list
-  const handleDelete = (id) => {
-    // Simply return tasks where id not equals id of task to be deleted
-    setTaskList(taskList.filter(task => task.id !== id))
+  const handleDelete = id => {
+    dispatch(deleteTask(id))
   }
 
   // Function to set your task to complete
-  const handleComplete = (id) => {
-    const taskToComplete = taskList.findIndex(task => task.id === id)
-
-    const newList = [...taskList]
-
-    newList[taskToComplete] = {
-      ...newList[taskToComplete],
-      isComplete: true
-    }
-
-    setTaskList(newList)
-
+  const handleComplete = id => {
+    dispatch(completeTask(id))
   }
 
+
+  // Pull taskList from state
+  const taskList = state.taskList
 
 
   return (
@@ -73,25 +58,15 @@ const Tasks = () => {
             <Form 
               handleSubmit = {handleSubmit}
               handleInputChange = {handleInputChange}
-              task = {task}
+              task = {text}
             />
 
             <div className="task-container">
-              <h1 className="title">Task List: </h1>
-              <ul>
-                {
-                  taskList.length > 0 ? (taskList.map(task =>
-                    <li key={task.id}> 
-                      <span className={`${task.isComplete ? 'cross' : null} subtitle`} >
-                        {task.text}
-                      </span>
-                      <button className="button remove is-danger is-small" onClick={() => handleDelete(task.id)}>Delete</button>
-                      {
-                        task.isComplete === false ? <button className="button done is-success is-small" onClick={() => handleComplete(task.id)} >Complete</button> : null
-                      }
-                    </li>)) : null
-                }
-              </ul>
+              <TaskContainer 
+                taskList={taskList}
+                handleComplete={handleComplete}
+                handleDelete={handleDelete}
+              />
             </div>
           </div>
         </div>
