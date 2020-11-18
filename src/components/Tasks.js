@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import Form from './Form'
 
 // import { useInputValue } from '../hooks/hooks'
 
@@ -55,37 +56,46 @@ const Tasks = () => {
   }
 
 
-  console.log('taskList', taskList)
-
 
   return (
     <Fragment>
-      <form onSubmit={handleSubmit}>
-        <div className="field">
-          <label className="label">Task: </label>
-          <div className="control">
-            <input className="input is-small" value={task} type="text" placeholder="Add task" onChange={handleInputChange} />
+      <section className="hero is-warning is-bold is-large">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+              TO DO APP
+            </h1>
+            <br />
+            <h2 className="subtitle">
+              {`You have ${taskList.length} tasks in your list and ${taskList.length > 0 ? taskList.filter(task => task.isComplete === false).length : 0} incomplete tasks`}
+            </h2>
+
+            <Form 
+              handleSubmit = {handleSubmit}
+              handleInputChange = {handleInputChange}
+              task = {task}
+            />
+
+            <div className="task-container">
+              <h1 className="title">Task List: </h1>
+              <ul>
+                {
+                  taskList.length > 0 ? (taskList.map(task =>
+                    <li key={task.id}> 
+                      <span className={`${task.isComplete ? 'cross' : null} subtitle`} >
+                        {task.text}
+                      </span>
+                      <button className="button remove is-danger is-small" onClick={() => handleDelete(task.id)}>Delete</button>
+                      {
+                        task.isComplete === false ? <button className="button done is-success is-small" onClick={() => handleComplete(task.id)} >Complete</button> : null
+                      }
+                    </li>)) : null
+                }
+              </ul>
+            </div>
           </div>
         </div>
-        <div className="control">
-          <button className="button is-link">Add Task</button>
-        </div>
-      </form>
-
-      <div>
-        <ul>
-          {
-            taskList.length > 0 ? (taskList.map(task => 
-              <li key={task.id} className={task.isComplete ? 'cross' : null}> {task.text} 
-                <button onClick={() => handleDelete(task.id)}>Delete</button>
-                {
-                  task.isComplete === false ? <button onClick={() => handleComplete(task.id)} >Complete</button> : null
-                }
-              </li>)) : null
-          }
-        </ul>
-      </div>
-      
+      </section>
     </Fragment>
   )
 }

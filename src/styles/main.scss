@@ -3,3 +3,25 @@
 .cross {
   text-decoration: line-through;
 }
+
+.hero .hero-body .container {
+  margin-left: 25%;
+  margin-top: -10%;
+}
+
+.task-container {
+  margin-top: 60px;
+  ul li {
+    margin-bottom: 14px;
+    list-style: square;
+
+    .remove {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  } 
+}
+
+.form {
+  width: 50%;
+}
