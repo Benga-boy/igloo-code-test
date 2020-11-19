@@ -59,7 +59,7 @@ const Tasks = () => {
             </h1>
             <br />
             <h2 className="subtitle">
-              {`You have ${taskList.length} tasks in your list and ${taskList.length > 0 ? taskList.filter(task => task.isComplete === false).length : 0} incomplete tasks`}
+              { taskList.length < 1 ? 'You have have no tasks in your list. Please start add task(s) below' : `You have ${taskList.length} tasks in your list and ${taskList.length > 0 ? taskList.filter(task => task.isComplete === false).length : 0} incomplete tasks`}
             </h2>
 
             <Form 
