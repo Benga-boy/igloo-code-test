@@ -17,12 +17,13 @@ const Tasks = () => {
   }
 
 
+
   // Function to handle submission of tasks
   const handleSubmit = e => {
     e.preventDefault()
     // Ensure task is not an empty string
-    if (state.text !== '') {
-      dispatch(addTask(text))
+    if (state.text.trim() !== '') {
+      dispatch(addTask(text.trim()))
       setError(null)
     } else {
       setError('Please type a task into the input field')
@@ -39,6 +40,9 @@ const Tasks = () => {
   const handleComplete = id => {
     dispatch(completeTask(id))
   }
+
+
+  console.log('Task: ', state.taskList)
 
 
   // Pull taskList from state
